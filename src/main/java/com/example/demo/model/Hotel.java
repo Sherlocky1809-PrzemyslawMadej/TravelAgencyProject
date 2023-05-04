@@ -3,6 +3,7 @@ package com.example.demo.model;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -29,6 +30,7 @@ public class Hotel {
     @Column(length = 10000)
     @Length(max = 10000)
     private String description;
+    @ManyToOne
     private City city;
 
     public void setHotelName(String hotelName) {

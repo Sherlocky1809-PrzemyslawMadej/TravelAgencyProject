@@ -2,6 +2,7 @@ package com.example.demo.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
@@ -19,6 +20,7 @@ public class Airport {
     @Pattern(regexp = "[A-Z].+")
     @NotNull
     private String airportName;
+    @ManyToOne
     private City city;
 
     public void setAirportName(String airportName) {
