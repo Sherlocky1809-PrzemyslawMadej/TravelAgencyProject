@@ -1,11 +1,10 @@
 package com.example.demo.model;
 
-import com.example.demo.pojo.Currency;
-import com.example.demo.pojo.TripType;
+import com.example.demo.enums.Currency;
+import com.example.demo.enums.TripType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

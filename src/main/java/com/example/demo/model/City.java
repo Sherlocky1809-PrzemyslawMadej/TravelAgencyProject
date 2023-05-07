@@ -17,7 +17,7 @@ public class City {
 
     @Id
     private Integer cityId;
-    @Pattern(regexp = "[A-Z].+")
+    @Pattern(regexp = "[A-Z][\\w ]+")
     @NotNull
     private String cityName;
     @ManyToOne

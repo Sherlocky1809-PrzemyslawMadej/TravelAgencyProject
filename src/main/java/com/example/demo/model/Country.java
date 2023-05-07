@@ -17,7 +17,7 @@ public class Country {
 
     @Id
     private Short countryId;
-    @Pattern(regexp = "[A-Z].+")
+    @Pattern(regexp = "[A-Z][\\w ]+")
     @NotNull
     private String countryName;
     @ManyToOne
