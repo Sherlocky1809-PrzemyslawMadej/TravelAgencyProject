@@ -4,6 +4,8 @@ import com.example.demo.pojo.Currency;
 import com.example.demo.pojo.TripType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,10 +22,15 @@ public class Trip {
 
     @Id
     private Long tripId;
+    @ManyToOne
     private City departureCity;
+    @ManyToOne
     private Airport departureAirport;
+    @ManyToOne
     private City destinationCity;
+    @ManyToOne
     private Airport destinationAirport;
+    @ManyToOne
     private Hotel destinationHotel;
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDate dateOfDeparture;
