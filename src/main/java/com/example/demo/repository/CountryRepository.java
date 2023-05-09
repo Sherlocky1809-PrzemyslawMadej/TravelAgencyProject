@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface CountryRepository extends JpaRepository<Country, Short> {
@@ -14,4 +15,6 @@ public interface CountryRepository extends JpaRepository<Country, Short> {
             "WHERE (?1 is null OR LOWER(country_name) LIKE %?1%) AND (?2 is null OR LOWER(continent.continent_name) LIKE %?2%)",
     nativeQuery = true)
     List<Country> findAllByParameters(String countryName, String continentName);
+
+    Optional<Country> findByCountryName(String countryName);
 }

@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -21,4 +22,9 @@ public class TripPurchase {
     @OneToMany
     private List<Client> clients;
 
+    private LocalDate dateOfPurchase;
+
+    public void setDateOfPurchase(LocalDate dateOfPurchase) {
+        this.dateOfPurchase = dateOfPurchase;
+    }
 }

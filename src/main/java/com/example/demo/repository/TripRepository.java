@@ -15,8 +15,4 @@ public interface TripRepository extends JpaRepository<Trip, Long> {
             "JOIN hotel ON hotel.hotel_id = trip.destination_hotel_hotel_id WHERE (is_promoted = true) LIMIT 5", nativeQuery = true)
     List<Trip> findAllPromoted();
 
-    @Query(value = "SELECT * FROM trip JOIN departure ON departure.departure_id = trip.departure_departure_id" +
-            "JOIN destination ON destination.destination_id = trip.destination_destination_id " +
-            "JOIN hotel ON hotel.hotel_id = trip.destination_hotel_hotel_id WHERE (is_promoted = true) LIMIT 5", nativeQuery = true)
-    List<Trip> findAllByParameters();
 }
