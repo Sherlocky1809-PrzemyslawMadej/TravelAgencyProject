@@ -18,11 +18,7 @@ public class TripPurchase {
     private Long purchaseId;
     @ManyToOne
     private Trip purchasedTrip;
-    @ManyToMany
-    @JoinTable(
-            name = "trip_purchase_client",
-            joinColumns = @JoinColumn(name = "purchase_id"),
-            inverseJoinColumns = @JoinColumn(name = "client_id"))
+    @OneToMany
     private List<Client> clients;
 
 }
