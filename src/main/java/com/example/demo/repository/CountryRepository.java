@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface CountryRepository extends JpaRepository<Country, Short> {
 
-    @Query(value = "SELECT * FROM country JOIN continent ON country.country_id = continent.id " +
+    @Query(value = "SELECT * FROM country JOIN continent ON continent.id = country.continent_id " +
             "WHERE (?1 is null OR LOWER(country_name) LIKE %?1%) AND (?2 is null OR LOWER(continent.continent_name) LIKE %?2%)",
     nativeQuery = true)
     List<Country> findAllByParameters(String countryName, String continentName);

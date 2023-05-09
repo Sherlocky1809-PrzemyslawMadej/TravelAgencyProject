@@ -14,6 +14,7 @@ import java.util.List;
 public class TripPurchase {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long purchaseId;
     @ManyToOne
     private Trip purchasedTrip;

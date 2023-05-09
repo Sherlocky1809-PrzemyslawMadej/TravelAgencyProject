@@ -2,9 +2,7 @@ package com.example.demo.model;
 
 import com.example.demo.enums.Currency;
 import com.example.demo.enums.TripType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,15 +18,12 @@ import java.time.LocalDate;
 public class Trip {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long tripId;
     @ManyToOne
-    private City departureCity;
+    private Departure departure;
     @ManyToOne
-    private Airport departureAirport;
-    @ManyToOne
-    private City destinationCity;
-    @ManyToOne
-    private Airport destinationAirport;
+    private Destination destination;
     @ManyToOne
     private Hotel destinationHotel;
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
@@ -39,8 +34,10 @@ public class Trip {
     private Short numberOfDays;
     private TripType tripType;
     private Double adultPrice;
+    @Embedded
     private Currency adultPriceCurrency;
     private Double childPrice;
+    @Embedded
     private Currency childPriceCurrency;
     private Boolean isPromoted;
     @Min(0)
@@ -48,20 +45,13 @@ public class Trip {
     @Min(0)
     private Short numberOfChildrenPlaces;
 
-    public void setDepartureCity(City departureCity) {
-        this.departureCity = departureCity;
+
+    public void setDeparture(Departure departure) {
+        this.departure = departure;
     }
 
-    public void setDepartureAirport(Airport departureAirport) {
-        this.departureAirport = departureAirport;
-    }
-
-    public void setDestinationCity(City destinationCity) {
-        this.destinationCity = destinationCity;
-    }
-
-    public void setDestinationAirport(Airport destinationAirport) {
-        this.destinationAirport = destinationAirport;
+    public void setDestination(Destination destination) {
+        this.destination = destination;
     }
 
     public void setDestinationHotel(Hotel destinationHotel) {

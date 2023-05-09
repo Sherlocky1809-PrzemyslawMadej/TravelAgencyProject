@@ -1,5 +1,9 @@
 package com.example.demo.enums;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
+
+@Embeddable
 public enum Currency {
 
     USD("Dolar amerykański"),
@@ -16,6 +20,7 @@ public enum Currency {
     INR("Rupia indyjska"),
     PLN("Złoty");
 
+    @Column(insertable = false, updatable = false)
     private final String currencyName;
 
     Currency(String currencyName) {

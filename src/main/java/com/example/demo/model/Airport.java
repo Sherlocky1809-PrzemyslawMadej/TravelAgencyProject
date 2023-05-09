@@ -1,8 +1,6 @@
 package com.example.demo.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
@@ -16,6 +14,7 @@ import lombok.NoArgsConstructor;
 public class Airport {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer airportId;
     @Pattern(regexp = "[A-Z].+")
     @NotNull
