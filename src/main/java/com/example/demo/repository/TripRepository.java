@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface TripRepository extends JpaRepository<Trip, Long> {
@@ -14,5 +15,7 @@ public interface TripRepository extends JpaRepository<Trip, Long> {
             "JOIN destination ON destination.destination_id = trip.destination_destination_id " +
             "JOIN hotel ON hotel.hotel_id = trip.destination_hotel_hotel_id WHERE (is_promoted = true) LIMIT 5", nativeQuery = true)
     List<Trip> findAllPromoted();
+
+    Optional<Trip> findByTripId(Long tripId);
 
 }

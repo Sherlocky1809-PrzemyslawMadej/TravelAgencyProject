@@ -10,10 +10,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static java.time.temporal.ChronoUnit.DAYS;
+import static java.time.temporal.ChronoUnit.MINUTES;
 
 @Service
 @Slf4j
@@ -62,13 +64,13 @@ public class TripService {
                 .map(converterService::convertTripToDTO)
                 .limit(5).toList();
 
+
         if(continentName != null) {
             return listOfUpcomingTrips.stream()
                     .filter(trip -> trip.getDeparture().getDepartureCity().getCountry()
                             .getContinent().getContinentName().equals(continentName))
                     .collect(Collectors.toList());
 
-//            log.info("The name of continent is not null - list of trips is filtered by given continent name!");
         }
         if(countryName != null) {
             return listOfUpcomingTrips.stream()
@@ -79,7 +81,11 @@ public class TripService {
     }
 
     public List<TripDTO> getTripsLastPurchased() {
-        return null;
+        return tripRepository.findAll().stream()
+                .filter(trip -> MINUTES.between(LocalDateTime.now(), trip.getDateOfLastUpdate()) < 10)
+                .map(converterService::convertTripToDTO)
+                .limit(5)
+                .collect(Collectors.toList());
     }
 
 

@@ -1,11 +1,11 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -19,12 +19,25 @@ public class TripPurchase {
     private Long purchaseId;
     @ManyToOne
     private Trip purchasedTrip;
-    @OneToMany
-    private List<Client> clients;
+    @Min(1)
+    private Short numberOfAdults;
+    @Min(0)
+    private Short numberOfChildren;
+    private Double totalPrice;
 
-    private LocalDate dateOfPurchase;
+    public void setPurchasedTrip(Trip purchasedTrip) {
+        this.purchasedTrip = purchasedTrip;
+    }
 
-    public void setDateOfPurchase(LocalDate dateOfPurchase) {
-        this.dateOfPurchase = dateOfPurchase;
+    public void setNumberOfAdults(Short numberOfAdults) {
+        this.numberOfAdults = numberOfAdults;
+    }
+
+    public void setNumberOfChildren(Short numberOfChildren) {
+        this.numberOfChildren = numberOfChildren;
+    }
+
+    public void setTotalPrice(Double totalPrice) {
+        this.totalPrice = totalPrice;
     }
 }

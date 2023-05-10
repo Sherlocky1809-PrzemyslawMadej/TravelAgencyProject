@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -44,6 +45,7 @@ public class Trip {
     private Short numberOfAdultsPlaces;
     @Min(0)
     private Short numberOfChildrenPlaces;
+    private LocalDateTime dateOfLastUpdate;
 
 
     public void setDeparture(Departure departure) {
@@ -100,5 +102,9 @@ public class Trip {
 
     public void setNumberOfChildrenPlaces(Short numberOfChildrenPlaces) {
         this.numberOfChildrenPlaces = numberOfChildrenPlaces;
+    }
+
+    public void setDateOfLastUpdate(LocalDateTime dateOfLastUpdate) {
+        this.dateOfLastUpdate = dateOfLastUpdate;
     }
 }

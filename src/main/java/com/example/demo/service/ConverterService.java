@@ -54,10 +54,6 @@ public class ConverterService {
         return hotelDTO;
     }
 
-    public ClientDTO convertClientToDTO(Client client) {
-        return modelMapper.map(client, ClientDTO.class);
-    }
-
     public DepartureDTO convertDepartureToDTO(Departure departure) {
 
         DepartureDTO departureDTO = modelMapper.map(departure, DepartureDTO.class);
@@ -90,9 +86,9 @@ public class ConverterService {
     public TripPurchaseDTO convertTripPurchaseToDTO(TripPurchase tripPurchase) {
 
         TripPurchaseDTO tripPurchaseDTO = modelMapper.map(tripPurchase, TripPurchaseDTO.class);
-        tripPurchaseDTO.setClients(tripPurchase.getClients().stream().map(this::convertClientToDTO)
-                .collect(Collectors.toList()));
+        tripPurchaseDTO.setPurchasedTrip(convertTripToDTO(tripPurchase.getPurchasedTrip()));
 
         return tripPurchaseDTO;
     }
+
 }
