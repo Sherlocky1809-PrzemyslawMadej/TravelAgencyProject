@@ -8,7 +8,6 @@ import com.example.demo.repository.TripRepository;
 import com.example.demo.service.exceptions.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Service

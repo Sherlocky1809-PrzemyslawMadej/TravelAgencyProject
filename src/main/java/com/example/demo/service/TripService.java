@@ -1,9 +1,9 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.TripDTO;
-import com.example.demo.model.Continent;
-import com.example.demo.model.Country;
-import com.example.demo.model.Trip;
+import com.example.demo.enums.Currency;
+import com.example.demo.enums.TripType;
+import com.example.demo.model.*;
 import com.example.demo.repository.*;
 import com.example.demo.service.exceptions.ResourceNotFoundException;
 import lombok.extern.slf4j.Slf4j;
@@ -86,6 +86,82 @@ public class TripService {
                 .map(converterService::convertTripToDTO)
                 .limit(5)
                 .collect(Collectors.toList());
+    }
+
+    public List<TripDTO> getTripsByParameters(String cityOfDeparture, String airportOfDeparture, String cityOfDestination,
+                                              String airportOfDestination, LocalDate dateOfDeparture, LocalDate dateOfDestination,
+                                              TripType typeOfTrip, Byte hotelNumberOfStars, Short numberOfDays) {
+
+        return tripRepository.findAllByGivenParameters(
+                cityOfDeparture != null ? cityOfDeparture.toLowerCase() : null,
+                airportOfDeparture != null ? airportOfDeparture.toLowerCase() : null,
+                cityOfDestination != null ? cityOfDestination.toLowerCase() : null,
+                airportOfDestination != null ? airportOfDestination.toLowerCase() : null,
+                dateOfDeparture,
+                dateOfDestination,
+                typeOfTrip,
+                hotelNumberOfStars,
+                numberOfDays
+        ).stream().map(converterService::convertTripToDTO)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * All functionalities below are configurated by Admin.
+     */
+
+    public TripDTO addTrip(Trip trip) {
+
+        tripRepository.findByTripId(trip.getTripId())
+                .ifPresent(o -> {
+                    throw new IllegalArgumentException("Trip already exists!");
+                });
+
+        return converterService.convertTripToDTO(trip);
+    }
+
+    public TripDTO editTrip(Trip trip) {
+
+       Departure departure = trip.getDeparture();
+       Destination destination = trip.getDestination();
+       Hotel hotel = trip.getDestinationHotel();
+       LocalDate dateOfDeparture = trip.getDateOfDeparture();
+       LocalDate dateOfReturn = trip.getDateOfReturn();
+       Short numberOfDays = trip.getNumberOfDays();
+       TripType typeOfTrip = trip.getTripType();
+       Double adultPrice = trip.getAdultPrice();
+       Currency adultPriceCurrency = trip.getAdultPriceCurrency();
+       Double childPrice = trip.getChildPrice();
+       Currency childPriceCurrency = trip.getChildPriceCurrency();
+       Boolean isPromoted = trip.getIsPromoted();
+       Short numberOfAdultsPlaces = trip.getNumberOfAdultsPlaces();
+       Short numberOfChildrenPlaces = trip.getNumberOfChildrenPlaces();
+
+       Trip tripToEdit = tripRepository.findByTripId(trip.getTripId())
+               .map(tr -> {
+                   tr.setDeparture(departure != null ? departure : tr.getDeparture());
+                   tr.setDestination(destination != null ? destination : tr.getDestination());
+                   tr.setDestinationHotel(hotel != null ? hotel : tr.getDestinationHotel());
+                   tr.setDateOfDeparture(dateOfDeparture != null ? dateOfDeparture : tr.getDateOfDeparture());
+                   tr.setDateOfReturn(dateOfReturn != null ? dateOfReturn : tr.getDateOfReturn());
+                   tr.setNumberOfDays(numberOfDays != null ? numberOfDays : tr.getNumberOfDays());
+                   tr.setTripType(typeOfTrip != null ? typeOfTrip : tr.getTripType());
+                   tr.setAdultPrice(adultPrice != null ? adultPrice : tr.getAdultPrice());
+                   tr.setAdultPriceCurrency(adultPriceCurrency != null ? adultPriceCurrency : tr.getAdultPriceCurrency());
+                   tr.setChildPrice(childPrice != null ? childPrice : tr.getChildPrice());
+                   tr.setChildPriceCurrency(childPriceCurrency != null ? childPriceCurrency : tr.getChildPriceCurrency());
+                   tr.setPromoted(isPromoted != null ? isPromoted : tr.getIsPromoted());
+                   tr.setNumberOfAdultsPlaces(numberOfAdultsPlaces != null ? numberOfAdultsPlaces : tr.getNumberOfAdultsPlaces());
+                   tr.setNumberOfChildrenPlaces(numberOfChildrenPlaces != null ? numberOfChildrenPlaces : tr.getNumberOfChildrenPlaces());
+
+                   return tr;
+
+               })
+               .orElseThrow(() -> new ResourceNotFoundException("No trip to update found!"));
+
+       Trip tripUpdated = tripRepository.save(tripToEdit);
+
+       return converterService.convertTripToDTO(tripUpdated);
     }
 
 
