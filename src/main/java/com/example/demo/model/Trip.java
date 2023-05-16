@@ -27,18 +27,16 @@ public class Trip {
     private Destination destination;
     @ManyToOne
     private Hotel destinationHotel;
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate dateOfDeparture;
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate dateOfReturn;
     @Min(0)
     private Short numberOfDays;
     private TripType tripType;
     private Double adultPrice;
-    @Embedded
     private Currency adultPriceCurrency;
     private Double childPrice;
-    @Embedded
     private Currency childPriceCurrency;
     private Boolean isPromoted;
     @Min(0)
