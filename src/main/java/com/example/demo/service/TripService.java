@@ -67,14 +67,14 @@ public class TripService {
 
         if(continentName != null) {
             return listOfUpcomingTrips.stream()
-                    .filter(trip -> trip.getDeparture().getDepartureCity().getCountry()
-                            .getContinent().getContinentName().equals(continentName))
+                    .filter(trip -> trip.getDestination().getDestinationCity().getCountry()
+                            .getContinent().getContinentName().equalsIgnoreCase(continentName))
                     .collect(Collectors.toList());
 
         }
         if(countryName != null) {
             return listOfUpcomingTrips.stream()
-                    .filter(trip -> trip.getDeparture().getDepartureCity().getCountry().getCountryName().equals(countryName))
+                    .filter(trip -> trip.getDestination().getDestinationCity().getCountry().getCountryName().equalsIgnoreCase(countryName))
                     .collect(Collectors.toList());
         }
         return listOfUpcomingTrips;
@@ -82,6 +82,7 @@ public class TripService {
 
     public List<TripDTO> getTripsLastPurchased() {
         return tripRepository.findAll().stream()
+                .filter(trip -> trip.getDateOfLastUpdate() != null)
                 .filter(trip -> MINUTES.between(LocalDateTime.now(), trip.getDateOfLastUpdate()) < 10)
                 .map(converterService::convertTripToDTO)
                 .limit(5)
