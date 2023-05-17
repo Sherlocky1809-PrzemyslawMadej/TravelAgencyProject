@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static java.time.temporal.ChronoUnit.DAYS;
@@ -50,10 +51,10 @@ public class TripService {
         this.converterService = converterService;
     }
 
-    public List<TripDTO> getTripsPromoted() {
+    public Set<TripDTO> getTripsPromoted() {
         return tripRepository.findAllPromoted().stream()
                 .map(converterService::convertTripToDTO)
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
     }
 
 
