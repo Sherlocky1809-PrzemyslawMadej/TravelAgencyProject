@@ -1,5 +1,9 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.TripDTO;
+import com.example.demo.enums.TripType;
+import com.example.demo.model.Trip;
+import com.example.demo.service.ConverterService;
 import com.example.demo.service.TripService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -8,6 +12,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @Slf4j
@@ -60,5 +68,28 @@ public class TripController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("INTERNAL SERVER ERROR :: " + e.getMessage());
         }
+    }
+
+    @GetMapping("/search-trips")
+    public ResponseEntity<?> searchTripsByGivenParameters(
+            @RequestParam(value = "city-of-departure", required = false) String cityOfDeparture,
+            @RequestParam(value = "airport-of-departure", required = false) String airportOfDeparture,
+            @RequestParam(value = "city-of-destination", required = false) String cityOfDestination,
+            @RequestParam(value = "airport-of-destination", required = false) String airportOfDestination,
+            @RequestParam(value = "date-of-departure", required = false) LocalDate dateOfDeparture,
+            @RequestParam(value = "date-of-destination", required = false) LocalDate dateOfDestination,
+            @RequestParam(value = "type-of-trip", required = false) TripType typeOfTrip,
+            @RequestParam(value = "hotel-number-of-stars", required = false) Byte numberOfStars,
+            @RequestParam(value = "number-of-days", required = false) Short numberOfDays
+            ) {
+
+        try {
+            return ResponseEntity.ok(tripService.getTripsByParameters(cityOfDeparture, airportOfDeparture,
+                    cityOfDestination, airportOfDestination, dateOfDeparture, dateOfDestination, typeOfTrip, numberOfStars, numberOfDays));
+        } catch (Exception exception) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("INTERNAL SERVER ERROR :: " + exception.getMessage());
+        }
+
     }
 }

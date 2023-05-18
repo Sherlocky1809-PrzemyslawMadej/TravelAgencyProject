@@ -68,14 +68,16 @@ public class TripService {
                 .toList();
 
 
-        if(continentName != null) {
+        if(continentName != null && countryName != null) {
             return listOfUpcomingTrips.stream()
                     .filter(trip -> trip.getDestination().getDestinationCity().getCountry()
                             .getContinent().getContinentName().toLowerCase().contains(continentName.toLowerCase()))
+                    .filter(trip -> trip.getDestination().getDestinationCity()
+                            .getCountry().getCountryName().toLowerCase().contains(countryName.toLowerCase()))
                     .limit(5)
                     .collect(Collectors.toList());
-
         }
+
         if(countryName != null) {
             return listOfUpcomingTrips.stream()
                     .filter(trip -> trip.getDestination().getDestinationCity()
@@ -83,8 +85,19 @@ public class TripService {
                     .limit(5)
                     .collect(Collectors.toList());
         }
-        return listOfUpcomingTrips;
+
+        if(continentName != null) {
+            return listOfUpcomingTrips.stream()
+                    .filter(trip -> trip.getDestination().getDestinationCity().getCountry()
+                            .getContinent().getContinentName().toLowerCase().contains(continentName.toLowerCase()))
+                    .limit(5)
+                    .collect(Collectors.toList());
+        }
+
+        return listOfUpcomingTrips.stream()
+                .limit(5).collect(Collectors.toList());
     }
+
 
     public List<TripDTO> getTripsLastPurchased() {
         return tripRepository.findAll().stream()
@@ -94,6 +107,7 @@ public class TripService {
                 .limit(5)
                 .collect(Collectors.toList());
     }
+
 
     public List<TripDTO> getTripsByParameters(String cityOfDeparture, String airportOfDeparture, String cityOfDestination,
                                               String airportOfDestination, LocalDate dateOfDeparture, LocalDate dateOfDestination,
