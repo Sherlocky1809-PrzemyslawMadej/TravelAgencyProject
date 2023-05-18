@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -62,20 +63,24 @@ public class TripService {
 
         List<TripDTO> listOfUpcomingTrips = tripRepository.findAll().stream()
                 .filter(trip -> DAYS.between(LocalDate.now(), trip.getDateOfDeparture()) < 31)
+                .sorted(Comparator.comparing(Trip::getDateOfDeparture))
                 .map(converterService::convertTripToDTO)
-                .limit(5).toList();
+                .toList();
 
 
         if(continentName != null) {
             return listOfUpcomingTrips.stream()
                     .filter(trip -> trip.getDestination().getDestinationCity().getCountry()
-                            .getContinent().getContinentName().equalsIgnoreCase(continentName))
+                            .getContinent().getContinentName().toLowerCase().contains(continentName.toLowerCase()))
+                    .limit(5)
                     .collect(Collectors.toList());
 
         }
         if(countryName != null) {
             return listOfUpcomingTrips.stream()
-                    .filter(trip -> trip.getDestination().getDestinationCity().getCountry().getCountryName().equalsIgnoreCase(countryName))
+                    .filter(trip -> trip.getDestination().getDestinationCity()
+                            .getCountry().getCountryName().toLowerCase().contains(countryName.toLowerCase()))
+                    .limit(5)
                     .collect(Collectors.toList());
         }
         return listOfUpcomingTrips;
