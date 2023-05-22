@@ -1,12 +1,11 @@
 package com.example.demo.model;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
+import javax.persistence.*;
+import javax.validation.constraints.Min;
 
 @Entity
 @Getter

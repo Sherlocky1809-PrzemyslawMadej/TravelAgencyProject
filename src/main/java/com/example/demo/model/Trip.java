@@ -2,13 +2,13 @@ package com.example.demo.model;
 
 import com.example.demo.enums.Currency;
 import com.example.demo.enums.TripType;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.*;
+import javax.validation.constraints.Min;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
