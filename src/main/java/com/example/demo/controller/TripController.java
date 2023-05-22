@@ -72,6 +72,8 @@ public class TripController {
 
     @GetMapping("/search-trips")
     public ResponseEntity<?> searchTripsByGivenParameters(
+            @RequestParam(value = "continent-name", required = false) String continentName,
+            @RequestParam(value = "country-name", required = false) String countryName,
             @RequestParam(value = "city-of-departure", required = false) String cityOfDeparture,
             @RequestParam(value = "airport-of-departure", required = false) String airportOfDeparture,
             @RequestParam(value = "city-of-destination", required = false) String cityOfDestination,
@@ -84,7 +86,7 @@ public class TripController {
             ) {
 
         try {
-            return ResponseEntity.ok(tripService.getTripsByParameters(cityOfDeparture, airportOfDeparture,
+            return ResponseEntity.ok(tripService.getTripsByParameters(continentName, countryName, cityOfDeparture, airportOfDeparture,
                     cityOfDestination, airportOfDestination, dateOfDeparture, dateOfDestination, typeOfTrip, numberOfStars, numberOfDays));
         } catch (Exception exception) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

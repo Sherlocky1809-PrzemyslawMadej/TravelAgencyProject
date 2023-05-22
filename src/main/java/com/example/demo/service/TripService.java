@@ -109,11 +109,13 @@ public class TripService {
     }
 
 
-    public List<TripDTO> getTripsByParameters(String cityOfDeparture, String airportOfDeparture, String cityOfDestination,
+    public List<TripDTO> getTripsByParameters( String continentName, String countryName, String cityOfDeparture, String airportOfDeparture, String cityOfDestination,
                                               String airportOfDestination, LocalDate dateOfDeparture, LocalDate dateOfDestination,
                                               TripType typeOfTrip, Byte hotelNumberOfStars, Short numberOfDays) {
 
         return tripRepository.findAllByGivenParameters(
+                continentName != null ? continentName.toLowerCase() : null,
+                countryName != null ? countryName.toLowerCase() : null,
                 cityOfDeparture != null ? cityOfDeparture.toLowerCase() : null,
                 airportOfDeparture != null ? airportOfDeparture.toLowerCase() : null,
                 cityOfDestination != null ? cityOfDestination.toLowerCase() : null,
