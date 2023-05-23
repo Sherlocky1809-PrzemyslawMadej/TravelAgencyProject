@@ -36,8 +36,8 @@ public interface TripRepository extends JpaRepository<Trip, Long> {
             "AND (?4 is null OR LOWER(departure_airport.airport_name) LIKE %?4%) " +
             "AND (?5 is null OR LOWER(destination_city.city_name) LIKE %?5%) " +
             "AND (?6 is null OR LOWER(destination_airport.airport_name) LIKE %?6%) " +
-            "AND (?7 is null OR date_of_departure < ?7) AND (?8 is null OR date_of_return > ?8) " +
-            "AND (?9 is null OR trip_type = ?9) AND (?10 is null OR hotel.number_of_stars = ?10) " +
+            "AND (?7 is null OR date_of_departure >= ?7) AND (?8 is null OR date_of_return >= ?8) " +
+            "AND (?9 is null OR UPPER(trip_type) = ?9) AND (?10 is null OR hotel.number_of_stars = ?10) " +
             "AND (?11 is null OR number_of_days = ?11) LIMIT 5", nativeQuery = true)
 
     List<Trip> findAllByGivenParameters(String continentName, String countryName, String cityOfDeparture, String airportOfDeparture, String cityOfDestination,

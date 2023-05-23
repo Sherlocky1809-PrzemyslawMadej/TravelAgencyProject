@@ -1,9 +1,12 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.*;
+import com.example.demo.enums.TripType;
 import com.example.demo.model.*;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.spi.MappingContext;
 import org.springframework.stereotype.Service;
 
 import java.util.stream.Collectors;
@@ -82,6 +85,7 @@ public class ConverterService {
 
         return tripDTO;
     }
+
 
     public TripPurchaseDTO convertTripPurchaseToDTO(TripPurchase tripPurchase) {
 
