@@ -2,12 +2,12 @@ package com.example.demo.controller;
 
 import com.example.demo.model.Trip;
 import com.example.demo.service.TripService;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 
 @RestController
 @Slf4j

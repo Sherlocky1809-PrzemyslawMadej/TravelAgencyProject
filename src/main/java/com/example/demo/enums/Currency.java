@@ -1,6 +1,7 @@
 package com.example.demo.enums;
 
-import javax.persistence.Column;
+import jakarta.persistence.Column;
+
 
 public enum Currency {
 

@@ -85,6 +85,8 @@ public class TripController {
             @RequestParam(value = "number-of-days", required = false) Short numberOfDays
             ) {
 
+        log.info("Wyszukiwanie wycieczek według zadanych kryteriów: ");
+
         try {
             return ResponseEntity.ok(tripService.getTripsByParameters(continentName, countryName, cityOfDeparture, airportOfDeparture,
                     cityOfDestination, airportOfDestination, dateOfDeparture, dateOfDestination, typeOfTrip, numberOfStars, numberOfDays));
