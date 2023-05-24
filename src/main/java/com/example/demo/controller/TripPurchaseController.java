@@ -1,7 +1,13 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.TripDTO;
 import com.example.demo.model.Trip;
 import com.example.demo.service.TripPurchaseService;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -22,10 +28,19 @@ public class TripPurchaseController {
         this.tripPurchaseService = tripPurchaseService;
     }
 
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = TripDTO.class))},
+                    description = "New trip was bought"),
+            @ApiResponse(responseCode = "500", description = "New trip was not bought.")
+    })
+
     @PostMapping("/buy-trip/{adults}/{children}")
     public ResponseEntity<?> buyTrip(
+            @Parameter(required = true, description = "This is a action to buy trip in order to save to purchasing list.")
             @Valid @RequestBody Trip trip,
+            @Parameter(required = true, description = "Type number of adults to take part in chosen trip.")
             @PathVariable(name = "adults") Short numberOfAdults,
+            @Parameter(required = true, description = "Type number of children to take part in chosen trip.")
             @PathVariable(name = "children") Short numberOfChildren
                     ) {
 

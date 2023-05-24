@@ -1,7 +1,13 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.TripDTO;
 import com.example.demo.model.Trip;
 import com.example.demo.service.TripService;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -20,9 +26,17 @@ public class AdminController {
         this.tripService = tripService;
     }
 
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = TripDTO.class))}),
+            @ApiResponse(responseCode = "201", content = { @Content(schema = @Schema(implementation = TripDTO.class))},
+                    description = "New trip was created"),
+            @ApiResponse(responseCode = "500", description = "New trip was not created.")
+    })
 
     @PostMapping("/add-trip")
-    public ResponseEntity<?> addTripToRepo(@Valid @RequestBody Trip trip) {
+    public ResponseEntity<?> addTripToRepo(
+           @Parameter(required = true, description = "This is a trip created in order to add to repo.") @Valid @RequestBody Trip trip
+    ) {
 
     log.info("DODANIE NOWEJ WYCIECZKI: ");
 
@@ -34,8 +48,15 @@ public class AdminController {
         }
     }
 
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = TripDTO.class))}),
+            @ApiResponse(responseCode = "500", description = "New trip was not updated.")
+    })
+
     @PutMapping("/edit-trip")
-    public ResponseEntity<?> editTripById(@Valid @RequestBody Trip trip) {
+    public ResponseEntity<?> editTrip(
+            @Parameter(required = true, description = "This is a trip updated in order to add to repo.") @Valid @RequestBody Trip trip
+    ) {
 
         log.info("EDYCJA WYCIECZKI: ");
 
