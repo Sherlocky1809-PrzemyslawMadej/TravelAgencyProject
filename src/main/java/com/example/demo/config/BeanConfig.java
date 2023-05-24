@@ -15,7 +15,6 @@ public class BeanConfig {
     @Bean
     public ModelMapper createModelMapperInstance() {
         ModelMapper modelMapper = new ModelMapper();
-
         return modelMapper;
     }
 }

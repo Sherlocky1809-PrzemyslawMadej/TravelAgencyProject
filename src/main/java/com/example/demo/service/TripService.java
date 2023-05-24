@@ -1,6 +1,5 @@
 package com.example.demo.service;
 
-import com.example.demo.config.WebConfig;
 import com.example.demo.dto.TripDTO;
 import com.example.demo.enums.Currency;
 import com.example.demo.enums.TripType;
@@ -38,12 +37,11 @@ public class TripService {
 
     private final ConverterService converterService;
 
-    private final WebConfig webConfig;
 
     public TripService(ContinentRepository continentRepository, CountryRepository countryRepository,
                        HotelRepository hotelRepository, CityRepository cityRepository, AirportRepository airportRepository,
                        DestinationRepository destinationRepository, DepartureRepository departureRepository,
-                       TripRepository tripRepository, ConverterService converterService, WebConfig webConfig) {
+                       TripRepository tripRepository, ConverterService converterService) {
         this.continentRepository = continentRepository;
         this.countryRepository = countryRepository;
         this.hotelRepository = hotelRepository;
@@ -53,7 +51,6 @@ public class TripService {
         this.departureRepository = departureRepository;
         this.tripRepository = tripRepository;
         this.converterService = converterService;
-        this.webConfig = webConfig;
     }
 
     public Set<TripDTO> getTripsPromoted() {
@@ -114,7 +111,7 @@ public class TripService {
 
 
     public List<TripDTO> getTripsByParameters( String continentName, String countryName, String cityOfDeparture, String airportOfDeparture, String cityOfDestination,
-                                              String airportOfDestination, LocalDate dateOfDeparture, LocalDate dateOfDestination, TripType tripType,
+                                              String airportOfDestination, LocalDate dateOfDeparture, LocalDate dateOfReturn, TripType tripType,
                                                Byte hotelNumberOfStars, Short numberOfDays) {
 
         List<TripDTO> list = tripRepository.findAllByGivenParameters(
@@ -125,7 +122,7 @@ public class TripService {
                         cityOfDestination != null ? cityOfDestination.toLowerCase() : null,
                         airportOfDestination != null ? airportOfDestination.toLowerCase() : null,
                         dateOfDeparture,
-                        dateOfDestination,
+                        dateOfReturn,
                         hotelNumberOfStars,
                         numberOfDays
                 ).stream()

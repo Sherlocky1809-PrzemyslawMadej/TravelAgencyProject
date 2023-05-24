@@ -79,7 +79,7 @@ public class TripController {
             @RequestParam(value = "city-of-destination", required = false) String cityOfDestination,
             @RequestParam(value = "airport-of-destination", required = false) String airportOfDestination,
             @RequestParam(value = "date-of-departure", required = false) LocalDate dateOfDeparture,
-            @RequestParam(value = "date-of-destination", required = false) LocalDate dateOfDestination,
+            @RequestParam(value = "date-of-return", required = false) LocalDate dateOfReturn,
             @RequestParam(value = "type-of-trip", required = false) TripType typeOfTrip,
             @RequestParam(value = "hotel-number-of-stars", required = false) Byte numberOfStars,
             @RequestParam(value = "number-of-days", required = false) Short numberOfDays
@@ -89,7 +89,7 @@ public class TripController {
 
         try {
             return ResponseEntity.ok(tripService.getTripsByParameters(continentName, countryName, cityOfDeparture, airportOfDeparture,
-                    cityOfDestination, airportOfDestination, dateOfDeparture, dateOfDestination, typeOfTrip, numberOfStars, numberOfDays));
+                    cityOfDestination, airportOfDestination, dateOfDeparture, dateOfReturn, typeOfTrip, numberOfStars, numberOfDays));
         } catch (Exception exception) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("INTERNAL SERVER ERROR :: " + exception.getMessage());

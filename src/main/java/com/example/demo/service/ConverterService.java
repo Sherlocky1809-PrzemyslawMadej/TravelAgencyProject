@@ -1,6 +1,5 @@
 package com.example.demo.service;
 
-import com.example.demo.config.WebConfig;
 import com.example.demo.dto.*;
 import com.example.demo.model.*;
 import lombok.extern.slf4j.Slf4j;
@@ -12,11 +11,9 @@ import org.springframework.stereotype.Service;
 public class ConverterService {
 
     private final ModelMapper modelMapper;
-    private final WebConfig webConfig;
 
-    public ConverterService(ModelMapper modelMapper, WebConfig webConfig) {
+    public ConverterService(ModelMapper modelMapper) {
         this.modelMapper = modelMapper;
-        this.webConfig = webConfig;
     }
 
     public ContinentDTO convertContinentToDTO(Continent continent) {
