@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.config.WebConfig;
 import com.example.demo.dto.TripDTO;
 import com.example.demo.enums.Currency;
 import com.example.demo.enums.TripType;
@@ -37,10 +38,12 @@ public class TripService {
 
     private final ConverterService converterService;
 
+    private final WebConfig webConfig;
+
     public TripService(ContinentRepository continentRepository, CountryRepository countryRepository,
                        HotelRepository hotelRepository, CityRepository cityRepository, AirportRepository airportRepository,
                        DestinationRepository destinationRepository, DepartureRepository departureRepository,
-                       TripRepository tripRepository, ConverterService converterService) {
+                       TripRepository tripRepository, ConverterService converterService, WebConfig webConfig) {
         this.continentRepository = continentRepository;
         this.countryRepository = countryRepository;
         this.hotelRepository = hotelRepository;
@@ -50,6 +53,7 @@ public class TripService {
         this.departureRepository = departureRepository;
         this.tripRepository = tripRepository;
         this.converterService = converterService;
+        this.webConfig = webConfig;
     }
 
     public Set<TripDTO> getTripsPromoted() {
@@ -62,7 +66,7 @@ public class TripService {
     public List<TripDTO> getUpcomingTripsByContinentNameOrCountryName(String continentName, String countryName) {
 
         List<TripDTO> listOfUpcomingTrips = tripRepository.findAll().stream()
-                .filter(trip -> DAYS.between(LocalDate.now(), trip.getDateOfDeparture()) < 31)
+                .filter(trip -> (DAYS.between(LocalDate.now(), trip.getDateOfDeparture()) < 31) && (DAYS.between(LocalDate.now(), trip.getDateOfDeparture()) > 0))
                 .sorted(Comparator.comparing(Trip::getDateOfDeparture))
                 .map(converterService::convertTripToDTO)
                 .toList();
@@ -102,7 +106,7 @@ public class TripService {
     public List<TripDTO> getTripsLastPurchased() {
         return tripRepository.findAll().stream()
                 .filter(trip -> trip.getDateOfLastUpdate() != null)
-                .filter(trip -> MINUTES.between(LocalDateTime.now(), trip.getDateOfLastUpdate()) < 10)
+                .filter(trip -> MINUTES.between(LocalDateTime.now(), trip.getDateOfLastUpdate()) < 10 && MINUTES.between(LocalDate.now(), trip.getDateOfLastUpdate()) > 0)
                 .map(converterService::convertTripToDTO)
                 .limit(5)
                 .collect(Collectors.toList());
@@ -110,23 +114,30 @@ public class TripService {
 
 
     public List<TripDTO> getTripsByParameters( String continentName, String countryName, String cityOfDeparture, String airportOfDeparture, String cityOfDestination,
-                                              String airportOfDestination, LocalDate dateOfDeparture, LocalDate dateOfDestination,
-                                              TripType typeOfTrip, Byte hotelNumberOfStars, Short numberOfDays) {
+                                              String airportOfDestination, LocalDate dateOfDeparture, LocalDate dateOfDestination, TripType tripType,
+                                               Byte hotelNumberOfStars, Short numberOfDays) {
 
-        return tripRepository.findAllByGivenParameters(
-                continentName != null ? continentName.toLowerCase() : null,
-                countryName != null ? countryName.toLowerCase() : null,
-                cityOfDeparture != null ? cityOfDeparture.toLowerCase() : null,
-                airportOfDeparture != null ? airportOfDeparture.toLowerCase() : null,
-                cityOfDestination != null ? cityOfDestination.toLowerCase() : null,
-                airportOfDestination != null ? airportOfDestination.toLowerCase() : null,
-                dateOfDeparture,
-                dateOfDestination,
-                typeOfTrip,
-                hotelNumberOfStars,
-                numberOfDays
-        ).stream().map(converterService::convertTripToDTO)
-                .collect(Collectors.toList());
+        List<TripDTO> list = tripRepository.findAllByGivenParameters(
+                        continentName != null ? continentName.toLowerCase() : null,
+                        countryName != null ? countryName.toLowerCase() : null,
+                        cityOfDeparture != null ? cityOfDeparture.toLowerCase() : null,
+                        airportOfDeparture != null ? airportOfDeparture.toLowerCase() : null,
+                        cityOfDestination != null ? cityOfDestination.toLowerCase() : null,
+                        airportOfDestination != null ? airportOfDestination.toLowerCase() : null,
+                        dateOfDeparture,
+                        dateOfDestination,
+                        hotelNumberOfStars,
+                        numberOfDays
+                ).stream()
+                .map(converterService::convertTripToDTO).toList();
+
+        if(tripType != null) {
+            return list.stream()
+                    .filter(tripDTO -> tripDTO.getTripType().equals(tripType))
+                    .limit(5)
+                    .collect(Collectors.toList());
+        }
+        return list.stream().limit(5).collect(Collectors.toList());
     }
 
     /**

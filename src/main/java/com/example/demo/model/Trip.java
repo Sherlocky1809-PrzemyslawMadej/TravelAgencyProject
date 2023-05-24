@@ -33,10 +33,13 @@ public class Trip {
     private LocalDate dateOfReturn;
     @Min(0)
     private Short numberOfDays;
+    @Enumerated(value = EnumType.STRING)
     private TripType tripType;
     private Double adultPrice;
+    @Enumerated(value = EnumType.STRING)
     private Currency adultPriceCurrency;
     private Double childPrice;
+    @Enumerated(value = EnumType.STRING)
     private Currency childPriceCurrency;
     private Boolean isPromoted;
     @Min(0)

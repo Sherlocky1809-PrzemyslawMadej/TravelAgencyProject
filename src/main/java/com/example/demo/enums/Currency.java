@@ -1,7 +1,7 @@
 package com.example.demo.enums;
 
 import jakarta.persistence.Column;
-
+import jakarta.persistence.Embeddable;
 
 public enum Currency {
 

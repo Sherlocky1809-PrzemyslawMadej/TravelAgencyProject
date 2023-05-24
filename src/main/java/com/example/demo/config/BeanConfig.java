@@ -16,19 +16,6 @@ public class BeanConfig {
     public ModelMapper createModelMapperInstance() {
         ModelMapper modelMapper = new ModelMapper();
 
-        Converter<String, TripType> toTripType = new AbstractConverter<String, TripType>() {
-            @Override
-            protected TripType convert(String s) {
-                try {
-                    return TripType.valueOf(s.toUpperCase());
-                } catch (IllegalArgumentException e) {
-                    return null;
-                }
-        }
-        };
-
-        modelMapper.addConverter(toTripType);
-
         return modelMapper;
     }
 }
