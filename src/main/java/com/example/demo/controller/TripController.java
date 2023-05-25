@@ -116,7 +116,7 @@ public class TripController {
             description = "This is a GET endpoint for searching trips by given parameters."
     )
     @ApiResponses({
-            @ApiResponse(responseCode = "200", content = { @Content(array = @ArraySchema(schema = @Schema(implementation = TripDTO.class)))}),
+            @ApiResponse(responseCode = "200"),
             @ApiResponse(responseCode = "500", description = "List of trips search by given parameters was not displayed.")
     })
     @GetMapping("/search-trips")

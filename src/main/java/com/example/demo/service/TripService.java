@@ -16,8 +16,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static java.time.temporal.ChronoUnit.DAYS;
-import static java.time.temporal.ChronoUnit.MINUTES;
+import static java.time.temporal.ChronoUnit.*;
 
 @Service
 @Slf4j
@@ -103,7 +102,8 @@ public class TripService {
     public List<TripDTO> getTripsLastPurchased() {
         return tripRepository.findAll().stream()
                 .filter(trip -> trip.getDateOfLastUpdate() != null)
-                .filter(trip -> MINUTES.between(LocalDateTime.now(), trip.getDateOfLastUpdate()) < 10 && MINUTES.between(LocalDate.now(), trip.getDateOfLastUpdate()) > 0)
+                .filter(trip -> DAYS.between(LocalDateTime.now(), trip.getDateOfLastUpdate()) < 0.01 && DAYS.between(LocalDate.now(), trip.getDateOfLastUpdate()) > 0)
+                .sorted(Comparator.comparing(Trip::getDateOfLastUpdate))
                 .map(converterService::convertTripToDTO)
                 .limit(5)
                 .collect(Collectors.toList());
