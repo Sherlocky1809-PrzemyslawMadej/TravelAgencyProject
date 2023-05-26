@@ -137,8 +137,7 @@ public class TripController {
             @RequestParam(value = "date-of-departure", required = false) LocalDate dateOfDeparture,
             @Parameter(description = "Choose a latest date when You could end Your trip ex. 2023-06-15")
             @RequestParam(value = "date-of-return", required = false) LocalDate dateOfReturn,
-            @Parameter(description = "Choose a standard of Your destination hotel.",
-                    content = { @Content(array = @ArraySchema(schema = @Schema(implementation = TripType.class)))})
+            @Parameter(description = "Choose a standard of Your destination hotel.")
             @RequestParam(value = "type-of-trip", required = false) TripType typeOfTrip,
             @Parameter(description = "Choose a standard of Your hotel given in stars.")
             @RequestParam(value = "hotel-number-of-stars", required = false) Byte numberOfStars,

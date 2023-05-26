@@ -102,8 +102,8 @@ public class TripService {
     public List<TripDTO> getTripsLastPurchased() {
         return tripRepository.findAll().stream()
                 .filter(trip -> trip.getDateOfLastUpdate() != null)
-                .filter(trip -> DAYS.between(LocalDateTime.now(), trip.getDateOfLastUpdate()) < 0.01 && DAYS.between(LocalDate.now(), trip.getDateOfLastUpdate()) > 0)
-                .sorted(Comparator.comparing(Trip::getDateOfLastUpdate))
+                .filter(trip -> DAYS.between(trip.getDateOfLastUpdate(), LocalDateTime.now()) < 1 && DAYS.between(trip.getDateOfLastUpdate(), LocalDateTime.now()) >= 0)
+                .sorted(Comparator.comparing(Trip::getDateOfLastUpdate).reversed())
                 .map(converterService::convertTripToDTO)
                 .limit(5)
                 .collect(Collectors.toList());

@@ -37,22 +37,19 @@ public class TripPurchaseService {
 
         TripPurchase tripOrder = new TripPurchase();
 
-        Trip trip = tripRepository.findByTripId(tripToPurchase.getTripId())
-                        .orElseThrow(() -> new ResourceNotFoundException("The trip by given ID is not exists!"));
+        if ((tripToPurchase.getNumberOfAdultsPlaces() >= numberOfAdults)
+                && (tripToPurchase.getNumberOfChildrenPlaces() >= numberOfChildren)) {
 
-        tripOrder.setPurchasedTrip(trip);
-        tripOrder.setNumberOfAdults(numberOfAdults);
-        tripOrder.setNumberOfChildren(numberOfChildren);
+            tripOrder.setTotalPrice((tripToPurchase.getAdultPrice() * numberOfAdults)
+                    + (tripToPurchase.getChildPrice() * numberOfChildren));
 
-        if ((trip.getNumberOfAdultsPlaces() >= numberOfAdults)
-                && (trip.getNumberOfChildrenPlaces() >= numberOfChildren)) {
+            tripToPurchase.setDateOfLastUpdate(LocalDateTime.now());
+            tripToPurchase.setNumberOfAdultsPlaces((short) (tripToPurchase.getNumberOfAdultsPlaces() - numberOfAdults));
+            tripToPurchase.setNumberOfChildrenPlaces((short) (tripToPurchase.getNumberOfChildrenPlaces() - numberOfChildren));
 
-            tripOrder.setTotalPrice((trip.getAdultPrice() * numberOfAdults)
-                    + (trip.getChildPrice() * numberOfChildren));
-
-            trip.setDateOfLastUpdate(LocalDateTime.now());
-            trip.setNumberOfAdultsPlaces((short) (trip.getNumberOfAdultsPlaces() - numberOfAdults));
-            trip.setNumberOfChildrenPlaces((short) (trip.getNumberOfChildrenPlaces() - numberOfChildren));
+            tripOrder.setPurchasedTrip(tripToPurchase);
+            tripOrder.setNumberOfAdults(numberOfAdults);
+            tripOrder.setNumberOfChildren(numberOfChildren);
 
             return tripPurchaseRepository.save(tripOrder);
         } else {

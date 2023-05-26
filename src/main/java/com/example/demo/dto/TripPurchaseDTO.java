@@ -5,14 +5,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
 public class TripPurchaseDTO {
 
+    private Long purchaseId;
     private TripDTO purchasedTrip;
-    private List<ClientDTO> clients;
+    private Short numberOfAdults;
+    private Short numberOfChildren;
+    private Double totalPrice;
 }
