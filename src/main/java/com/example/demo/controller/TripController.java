@@ -133,11 +133,9 @@ public class TripController {
             @RequestParam(value = "city-of-destination", required = false) String cityOfDestination,
             @Parameter(description = "Choose a airport You want to end your flight.")
             @RequestParam(value = "airport-of-destination", required = false) String airportOfDestination,
-            @Parameter(description = "Choose a date when You could start Your trip.",
-                    content = { @Content(array = @ArraySchema(schema = @Schema(implementation = LocalDate.class)))})
+            @Parameter(description = "Choose a date when You could start Your trip ex. 2023-06-01")
             @RequestParam(value = "date-of-departure", required = false) LocalDate dateOfDeparture,
-            @Parameter(description = "Choose a latest date when You could end Your trip.",
-                    content = { @Content(array = @ArraySchema(schema = @Schema(implementation = LocalDate.class)))})
+            @Parameter(description = "Choose a latest date when You could end Your trip ex. 2023-06-15")
             @RequestParam(value = "date-of-return", required = false) LocalDate dateOfReturn,
             @Parameter(description = "Choose a standard of Your destination hotel.",
                     content = { @Content(array = @ArraySchema(schema = @Schema(implementation = TripType.class)))})
