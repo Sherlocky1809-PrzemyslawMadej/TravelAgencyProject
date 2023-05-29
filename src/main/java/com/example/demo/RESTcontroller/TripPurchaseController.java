@@ -1,4 +1,4 @@
-package com.example.demo.controller;
+package com.example.demo.RESTcontroller;
 
 import com.example.demo.dto.TripDTO;
 import com.example.demo.model.Trip;

@@ -1,11 +1,7 @@
-package com.example.demo.controller;
+package com.example.demo.RESTcontroller;
 
-import com.example.demo.dto.ContinentDTO;
-import com.example.demo.dto.CountryDTO;
 import com.example.demo.dto.TripDTO;
 import com.example.demo.enums.TripType;
-import com.example.demo.model.Trip;
-import com.example.demo.service.ConverterService;
 import com.example.demo.service.TripService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -24,8 +20,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Tag(name = "Main Page", description = "This is main page to start trip search")
 @RestController
