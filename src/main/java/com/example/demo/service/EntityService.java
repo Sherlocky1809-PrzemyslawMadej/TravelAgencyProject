@@ -32,14 +32,12 @@ public class EntityService {
         return continentNameList;
     }
 
-    public List<String> getCountryNameListByContinent(String continentName) {
+    public List<String> getCountryNameList() {
 
         List<String> countryNameList = new ArrayList<>();
 
         for (Country country: countryRepository.findAll()) {
-            if(country.getContinent().getContinentName().equals(continentName)) {
                 countryNameList.add(country.getCountryName());
-            }
         }
         return countryNameList;
     }
