@@ -18,8 +18,8 @@ public class Continent {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Byte id;
-    @Pattern(regexp = "[A-Z][\\w ]+")
+    private Short id;
+    @Pattern(regexp = "[A-Z].+")
     private String continentName;
 
     public void setContinentName(String continentName) {

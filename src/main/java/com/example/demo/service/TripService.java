@@ -22,32 +22,12 @@ import static java.time.temporal.ChronoUnit.*;
 @Slf4j
 public class TripService {
 
-    private final ContinentRepository continentRepository;
-    private final CountryRepository countryRepository;
-
-    private final HotelRepository hotelRepository;
-    private final CityRepository cityRepository;
-    private final AirportRepository airportRepository;
-
-    private final DestinationRepository destinationRepository;
-    private final DepartureRepository departureRepository;
-
     private final TripRepository tripRepository;
 
     private final ConverterService converterService;
 
 
-    public TripService(ContinentRepository continentRepository, CountryRepository countryRepository,
-                       HotelRepository hotelRepository, CityRepository cityRepository, AirportRepository airportRepository,
-                       DestinationRepository destinationRepository, DepartureRepository departureRepository,
-                       TripRepository tripRepository, ConverterService converterService) {
-        this.continentRepository = continentRepository;
-        this.countryRepository = countryRepository;
-        this.hotelRepository = hotelRepository;
-        this.cityRepository = cityRepository;
-        this.airportRepository = airportRepository;
-        this.destinationRepository = destinationRepository;
-        this.departureRepository = departureRepository;
+    public TripService(TripRepository tripRepository, ConverterService converterService) {
         this.tripRepository = tripRepository;
         this.converterService = converterService;
     }

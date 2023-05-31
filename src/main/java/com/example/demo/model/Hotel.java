@@ -29,7 +29,7 @@ public class Hotel {
     @Column(length = 10000)
     @Length(max = 10000)
     private String description;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private City city;
 
     public void setHotelName(String hotelName) {

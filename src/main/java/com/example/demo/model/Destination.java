@@ -15,8 +15,8 @@ public class Destination {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer destinationId;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private City destinationCity;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Airport destinationAirport;
 }

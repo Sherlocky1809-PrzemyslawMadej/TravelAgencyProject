@@ -21,11 +21,11 @@ public class Trip {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long tripId;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Departure departure;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Destination destination;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Hotel destinationHotel;
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate dateOfDeparture;

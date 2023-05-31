@@ -17,10 +17,10 @@ public class City {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer cityId;
-    @Pattern(regexp = "[A-Z][\\w ]+")
+    @Pattern(regexp = "[A-Z].+")
     @NotNull
     private String cityName;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Country country;
 
     public void setCityName(String cityName) {

@@ -20,7 +20,7 @@ public class Country {
     @Pattern(regexp = "[A-Z][\\w ]+")
     @NotNull
     private String countryName;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Continent continent;
 
     public void setCountryName(String countryName) {

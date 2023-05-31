@@ -20,7 +20,7 @@ public class Airport {
     @Pattern(regexp = "[A-Z].+")
     @NotNull
     private String airportName;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private City city;
 
     public void setAirportName(String airportName) {
