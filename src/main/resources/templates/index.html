@@ -10,6 +10,19 @@
 <body>
 <h1>BIURO PODRÓŻY MAD-TRAVEL</h1>
 <h2>Z nami wyjedziesz na podróż życia!</h2>
+
+<div class="banner-infhny table-responsive">
+    <h3>WYCIECZKI PROMOWANE</h3>
+    <table class="table table-striped table-bordered table-hover table-condensed" th:each="trip: ${promotedTrips}">
+        <thead>
+            <tr>
+                <th></th>
+            </tr>
+        </thead>
+    </table>
+
+</div>
+
 <div class="banner-infhny">
     <h3>Nie musisz szukać bardzo daleko, by dolecieć na najdalsze zakątki świata!</h3>
     <h6 class="mb-3">Gdzie chciałbyś pojechać?</h6>
@@ -28,9 +41,6 @@
                         <option th:each="country : ${countryNames}" th:text="${country}"></option>
                     </select>
                 </div>
-<!--                <div class="form-input col-md-4 mt-md-0 mt-3">-->
-<!--                    <input type="date" name="" placeholder="Date" required="">-->
-<!--                </div>-->
 
                 <div class="bottom-btn col-md-4 mt-md-0 mt-3">
                     <button class="btn btn-style btn-secondary"><span class="fa fa-search mr-3"

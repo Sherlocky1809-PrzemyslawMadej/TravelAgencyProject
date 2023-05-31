@@ -27,8 +27,7 @@ public class IndexController {
     }
 
     @GetMapping("/continentsAndCountries")
-    public String getContinentList(ModelMap modelMap) {
-
+    public String getContinentsAndCountries(ModelMap modelMap) {
         log.info("Lista kontynentów: ");
 
         List<String> continentNameList = entityService.getContinentNameList();
@@ -60,12 +59,13 @@ public class IndexController {
             @RequestParam(value = "country-name", required = false) String countryName
     ) {
 
+
         log.info("Wybrane wycieczki na podstawie danego kontynentu lub kraju:");
 
         List<TripDTO> listOfTrips = tripService.getUpcomingTripsByContinentNameOrCountryName(continentName, countryName);
         modelMap.addAttribute("upcomingTrips", listOfTrips);
 
-        return "destination";
+        return "index";
     }
 
     @GetMapping("/lastPurchased")
