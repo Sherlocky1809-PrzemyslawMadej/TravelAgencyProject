@@ -1,51 +1,59 @@
 package com.example.demo;
 
+import com.example.demo.dto.TripDTO;
 import com.example.demo.enums.Currency;
 import com.example.demo.enums.TripType;
 import com.example.demo.model.*;
 import com.example.demo.repository.TripRepository;
+import com.example.demo.service.ConverterService;
+import com.example.demo.service.TripService;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.data.web.JsonPath;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Bean;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = TravelAgencyApplication.class)
-@AutoConfigureMockMvc
-@AutoConfigureTestDatabase
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class TripIntegrationTest {
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-    @Autowired
-    private MockMvc mockMvc;
+@ExtendWith(SpringExtension.class)
+public class TripServiceTest {
 
-    @Autowired
+    @TestConfiguration
+    static class TripServiceConfiguration {
+        @Bean
+        public TripService tripService(TripRepository tripRepository,
+                                       ConverterService converterService) {
+            return new TripService(tripRepository, converterService);
+        }
+    }
+
+    @MockBean
     private TripRepository tripRepository;
 
-    @LocalServerPort
-    private int serverPort;
+    @MockBean
+    private ConverterService converterService;
 
-    Trip trip1;
-    Trip trip2;
-    Trip trip3;
+    @Autowired
+    private TripService tripService;
 
-    @BeforeAll
-    public void setupTrips() {
 
-        trip1 = new Trip();
+    @Test
+    void when_get_promoted_trips_5_promoted_trips_should_be_returned () throws Exception {
+
+        // given
+        Trip trip1 = new Trip();
 
         trip1.setPromoted(true);
         trip1.setTripType(TripType.AI);
@@ -75,7 +83,7 @@ public class TripIntegrationTest {
                 new City(1, "Sapporo", new Country((short) 1, "Japonia", new Continent((short) 1, "Azja")))));
 
 
-        trip2 = new Trip();
+        Trip trip2 = new Trip();
 
         trip2.setPromoted(true);
         trip2.setTripType(TripType.FB);
@@ -91,7 +99,7 @@ public class TripIntegrationTest {
         trip2.setNumberOfDays((short) 8);
         trip2.setDeparture(new Departure(2,
                 new City(81, "Kraków", new Country((short) 62, "Polska",
-                new Continent((short) 6, "Europa"))),
+                        new Continent((short) 6, "Europa"))),
                 new Airport(81, "KRK", new City(81, "Kraków", new Country((short) 62, "Polska",
                         new Continent((short) 6, "Europa"))))));
         trip2.setDestination(new Destination(2,
@@ -104,7 +112,7 @@ public class TripIntegrationTest {
                         " Na miejscu zapewniono usługi prasowania, a personel służy pomocą w wymianie walut.(booking.com)",
                 new City(2, "Tokio", new Country((short) 1, "Japonia", new Continent((short) 1, "Azja")))));
 
-        trip3 = new Trip();
+        Trip trip3 = new Trip();
 
         trip3.setPromoted(true);
         trip3.setTripType(TripType.HB);
@@ -135,22 +143,16 @@ public class TripIntegrationTest {
                 new City(3, "Denpasar", new Country((short) 2, "Indonezja - Bali",
                         new Continent((short) 1, "Azja")))));
 
+        Set<Trip> tripSet = new HashSet<>();
+        tripSet.add(trip1);
+        tripSet.add(trip2);
+        tripSet.add(trip3);
+
+        // when
+        Set<TripDTO> listOfPromotedTrips = tripService.getTripsPromoted();
+        int size = listOfPromotedTrips.size();
+        // then
+        assertEquals(3, size);
     }
 
-    @AfterAll
-    public void teardown() {
-        trip1 = null;
-        trip2 = null;
-        trip3 = null;
-    }
-
-    @Test
-    void when_get_promoted_trips_5_promoted_trips_should_be_returned () throws Exception {
-        // given
-
-        // when & then
-        mockMvc.perform(MockMvcRequestBuilders.get("/trips-promoted")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
-    }
 }
