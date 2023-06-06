@@ -22,3 +22,5 @@ This URL is secured by basic authentication in **Spring security**. The controll
 ## 2. Main
 This controller operates trip management - it enables display collection of trip saved in database by parameter/s given.
 This controller is available via URL: http://localhost:8081/travel-agency/main. The controller has four endpoints:
+
+-> **GET /trips-promoted** which return set of trips which is switched as promoted. No parameter to insert.
