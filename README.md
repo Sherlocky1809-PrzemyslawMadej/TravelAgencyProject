@@ -2,9 +2,9 @@
 
 This is a REST API service for travel agency, which operates database of trips from more than 60 countries around the world.
 The app is written by Spring boot framework v. 3.0.6. It consist of such facilities as:
--> Display promoted trips;
--> Display trips filtered by continent and/or country name;
--> Display upcoming trips in next 30 days and much more.
+- Display promoted trips;
+- Display trips filtered by continent and/or country name;
+- Display upcoming trips in next 30 days and much more.
 
 You can familiarize with all controllers below and in Swagger UI documentation under this URL: http://localhost:8081/travel-agency/swagger-ui/index.html.
 
